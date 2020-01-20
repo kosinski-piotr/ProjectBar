@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\kwasc\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\kwasc\\.nuget\\packages"
+    ]
+  }
+}
