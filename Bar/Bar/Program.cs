@@ -200,8 +200,8 @@ namespace Bar
                                 wyborNapoju();
                                 break;
                             case "2":
-                                Console.WriteLine("dzien++");
-                                menu();
+                                Console.Clear();
+                                Console.WriteLine("dzien++");                           
                                 break;
                             case "3":
                                 if (losuj(2) == 1)
