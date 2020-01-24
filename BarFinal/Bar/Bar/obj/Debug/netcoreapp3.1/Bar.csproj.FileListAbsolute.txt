@@ -1,0 +1,11 @@
+C:\Users\pio1755\Desktop\BarFinal\Bar\Bar\bin\Debug\netcoreapp3.1\Bar.exe
+C:\Users\pio1755\Desktop\BarFinal\Bar\Bar\bin\Debug\netcoreapp3.1\Bar.deps.json
+C:\Users\pio1755\Desktop\BarFinal\Bar\Bar\bin\Debug\netcoreapp3.1\Bar.runtimeconfig.json
+C:\Users\pio1755\Desktop\BarFinal\Bar\Bar\bin\Debug\netcoreapp3.1\Bar.runtimeconfig.dev.json
+C:\Users\pio1755\Desktop\BarFinal\Bar\Bar\bin\Debug\netcoreapp3.1\Bar.dll
+C:\Users\pio1755\Desktop\BarFinal\Bar\Bar\bin\Debug\netcoreapp3.1\Bar.pdb
+C:\Users\pio1755\Desktop\BarFinal\Bar\Bar\obj\Debug\netcoreapp3.1\Bar.csprojAssemblyReference.cache
+C:\Users\pio1755\Desktop\BarFinal\Bar\Bar\obj\Debug\netcoreapp3.1\Bar.AssemblyInfoInputs.cache
+C:\Users\pio1755\Desktop\BarFinal\Bar\Bar\obj\Debug\netcoreapp3.1\Bar.AssemblyInfo.cs
+C:\Users\pio1755\Desktop\BarFinal\Bar\Bar\obj\Debug\netcoreapp3.1\Bar.dll
+C:\Users\pio1755\Desktop\BarFinal\Bar\Bar\obj\Debug\netcoreapp3.1\Bar.pdb
