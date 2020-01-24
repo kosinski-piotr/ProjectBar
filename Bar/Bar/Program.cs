@@ -10,8 +10,10 @@ namespace Bar
 
         static void Menu()
         {
-            //Może na start 10 ?
-            Console.WriteLine("(Tak na marginesie to w portfelu masz ???? zł)\n");
+            Console.Clear();
+            Gracz.ZeroPromile();
+            Console.WriteLine("Witaj {0} {1}. O wieku {2} lat", Gracz.Imie, Gracz.Nazwisko, Gracz.Wiek);
+            Console.Write("W portfelu masz " + Gracz.WypPortfel() + "zł                              Promile: " + Gracz.promile + "\n");
             Console.WriteLine(" Wybierz jedną z opcji:" +
                 "\n1.Wejdź do baru" +
                 "\n2.Cholera trochę się cykam" +
@@ -29,7 +31,15 @@ namespace Bar
         static void WyborNapoju()
         {
             Console.Clear();
-            Console.WriteLine("(Tak na marginesie to w portfelu masz ???? zł)\n");
+            if (Gracz.promile > 2.2)
+            {
+                Gracz.zgon();
+                Menu();
+            }
+
+            Console.Write("W portfelu masz " + Gracz.WypPortfel() + "zł                              Promile: " + Gracz.promile + "\n");
+            Console.Write("Żeby wytrzeźwieć, wyjdź z baru\n");
+
             Console.WriteLine(" Witaj! Za barem stoi: " + Nasz_bar.barman_teraz.ToString() +
                 "\nWybierz czego chcesz się dziś napić:" +
                 "\n1. Wódka" +
@@ -68,6 +78,7 @@ namespace Bar
                     }
                     if (n == 2)
                     {
+                        Gracz.ZeroPromile();
                         Console.WriteLine("Wypiłeś szklankę wódki, zaliczasz zgona. Budzisz się następnego dnia");
                         Console.WriteLine("\n Aby kontynuować wciśnij klawisz");
                         Console.ReadKey();
@@ -98,7 +109,19 @@ namespace Bar
                     //czysta obiekt
                     Console.Clear();
                     NowyNapoj w = new Wodka();
-                    Console.WriteLine("{0}, płacisz {1} zł", w.Nazwa(), w.ObliczKoszt());
+                    if (Gracz.WypPortfel() < w.ObliczKoszt() )
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Masz za mało hajsiku :(, idź do pracy");
+                        Thread.Sleep(2300);
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0}, płacisz {1} zł, Dochodzi do Cb {2} promila.", w.Nazwa(), w.ObliczKoszt(), w.ObliczPromile());
+                        Gracz.ZmianaPortfela(-w.ObliczKoszt());
+                        Gracz.ZmianaPromili(w.ObliczPromile());
+                    }
                     Console.WriteLine("\n Aby kontynuować wciśnij klawisz");
                     Console.ReadKey();
                     WyborNapoju();
@@ -108,7 +131,19 @@ namespace Bar
                     Console.Clear();
                     NowyNapoj wZc = new Wodka();
                     wZc = new CytrynaDekorator(wZc);
-                    Console.WriteLine("{0}, płacisz {1} zł", wZc.Nazwa(), wZc.ObliczKoszt());
+                    if (Gracz.WypPortfel() < wZc.ObliczKoszt())
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Masz za mało hajsiku :(, idź do pracy");
+                        Thread.Sleep(2300);
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0}, płacisz {1} zł dochodzi do Cb {2} promila.", wZc.Nazwa(), wZc.ObliczKoszt(), wZc.ObliczPromile());
+                        Gracz.ZmianaPortfela(-wZc.ObliczKoszt());
+                        Gracz.ZmianaPromili(wZc.ObliczPromile());
+                    }
                     Console.WriteLine("\n Aby kontynuować wciśnij klawisz");
                     Console.ReadKey();
                     WyborNapoju();
@@ -132,7 +167,20 @@ namespace Bar
                     Console.Clear();
                     NowyNapoj szybki = new Shot();
                     szybki = new SzybkiOgier(szybki);
-                    Console.WriteLine("{0}, płacisz {1} zł", szybki.Nazwa(), szybki.ObliczKoszt());
+                    if (Gracz.WypPortfel() < szybki.ObliczKoszt())
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Masz za mało hajsiku :(, idź do pracy");
+                        Thread.Sleep(2300);
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0}, płacisz {1} zł, dochodzi do Cb {2} promila.", szybki.Nazwa(), szybki.ObliczKoszt(), szybki.ObliczPromile());
+                        Gracz.ZmianaPortfela(-szybki.ObliczKoszt());
+                        Gracz.ZmianaPromili(szybki.ObliczPromile());
+                    }
+                    
                     Console.WriteLine("\n Aby kontynuować wciśnij klawisz");
                     Console.ReadKey();
                     WyborNapoju();
@@ -142,7 +190,20 @@ namespace Bar
                     Console.Clear();
                     NowyNapoj dance = new Shot();
                     dance = new DanceMachina(dance);
-                    Console.WriteLine("{0}, płacisz {1} zł", dance.Nazwa(), dance.ObliczKoszt());
+                    if (Gracz.WypPortfel() < dance.ObliczKoszt())
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Masz za mało hajsiku :(, idź do pracy");
+                        Thread.Sleep(2300);
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0}, płacisz {1} zł", dance.Nazwa(), dance.ObliczKoszt());
+                        Gracz.ZmianaPortfela(-dance.ObliczKoszt());
+                        Gracz.ZmianaPromili(dance.ObliczPromile());
+                    }
+                    
                     Console.WriteLine("\n Aby kontynuować wciśnij klawisz");
                     Console.ReadKey();
                     WyborNapoju();
@@ -152,7 +213,20 @@ namespace Bar
                     Console.Clear();
                     NowyNapoj koniec = new Shot();
                     koniec = new ToTwojKoniec(koniec);
-                    Console.WriteLine("{0}, płacisz {1} zł", koniec.Nazwa(), koniec.ObliczKoszt());
+                    if (Gracz.WypPortfel() < koniec.ObliczKoszt())
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Masz za mało hajsiku :(, idź do pracy");
+                        Thread.Sleep(2300);
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0}, płacisz {1} zł", koniec.Nazwa(), koniec.ObliczKoszt());
+                        Gracz.ZmianaPortfela(-koniec.ObliczKoszt());
+                        Gracz.ZmianaPromili(koniec.ObliczPromile());
+                    }
+                    
                     Console.WriteLine("\n Aby kontynuować wciśnij klawisz");
                     Console.ReadKey();
                     WyborNapoju();
@@ -162,7 +236,20 @@ namespace Bar
                     Console.Clear();
                     NowyNapoj pkt = new Shot();
                     pkt = new Pkt(pkt);
-                    Console.WriteLine("Kupujesz {0}, płacisz {1} zł", pkt.Nazwa(), pkt.ObliczKoszt());
+                    if (Gracz.WypPortfel() < pkt.ObliczKoszt())
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Masz za mało hajsiku :(, idź do pracy");
+                        Thread.Sleep(2300);
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Kupujesz {0}, płacisz {1} zł", pkt.Nazwa(), pkt.ObliczKoszt());
+                        Gracz.ZmianaPortfela(-pkt.ObliczKoszt());
+                        Gracz.ZmianaPromili(pkt.ObliczPromile());
+                    }
+                    
                     Console.WriteLine("\n Aby kontynuować wciśnij klawisz");
                     Console.ReadKey();
                     Console.Clear();
@@ -203,17 +290,42 @@ namespace Bar
                     Console.Clear();
                     NowyNapoj cola = new Napoj();
                     cola = new Cola(cola);
-                    Console.WriteLine("{0}, płacisz {1} zł", cola.Nazwa(), cola.ObliczKoszt());
+                    if (Gracz.WypPortfel() < cola.ObliczKoszt())
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Masz za mało hajsiku :(, idź do pracy");
+                        Thread.Sleep(2300);
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0}, płacisz {1} zł", cola.Nazwa(), cola.ObliczKoszt());
+                        Gracz.ZmianaPortfela(-cola.ObliczKoszt());
+                    }
+                    
                     Console.WriteLine("\n Aby kontynuować wciśnij klawisz");
                     Console.ReadKey();
                     WyborNapoju();
+
                     break;
                 case "2":
                     //woda obiekt
                     Console.Clear();
                     NowyNapoj woda = new Napoj();
                     woda = new Woda(woda);
-                    Console.WriteLine("{0}, płacisz {1} zł", woda.Nazwa(), woda.ObliczKoszt());
+                    if (Gracz.WypPortfel() < woda.ObliczKoszt())
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Masz za mało hajsiku :(, idź do pracy");
+                        Thread.Sleep(2300);
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0}, płacisz {1} zł", woda.Nazwa(), woda.ObliczKoszt());
+                        Gracz.ZmianaPortfela(-woda.ObliczKoszt());
+                    }
+                    
                     Console.WriteLine("\n Aby kontynuować wciśnij klawisz");
                     Console.ReadKey();
                     WyborNapoju();
@@ -223,7 +335,19 @@ namespace Bar
                     Console.Clear();
                     NowyNapoj soczek = new Napoj();
                     soczek = new SokZGumijagod(soczek);
-                    Console.WriteLine("{0}, płacisz {1} zł", soczek.Nazwa(), soczek.ObliczKoszt());
+                    if (Gracz.WypPortfel() < soczek.ObliczKoszt())
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Masz za mało hajsiku :(, idź do pracy");
+                        Thread.Sleep(2300);
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0}, płacisz {1} zł", soczek.Nazwa(), soczek.ObliczKoszt());
+                        Gracz.ZmianaPortfela(-soczek.ObliczKoszt());
+                    }
+                    
                     Console.WriteLine("\n Aby kontynuować wciśnij klawisz");
                     Console.ReadKey();
                     WyborNapoju();
@@ -249,6 +373,22 @@ namespace Bar
             Nasz_bar.DodajBarmana(b2);
             Nasz_bar.DodajBarmana(b3);
             int i = 0;
+
+            Console.Write("Podaj swoje imie:");
+            string imie = "";
+            imie = Console.ReadLine();
+
+            Console.Write("Podaj swoje Nazwisko:");
+            string Nazwisko = "";
+            Nazwisko = Console.ReadLine();
+
+            Console.Write("Podaj swój wiek:");
+            int wiek;
+            wiek = int.Parse(Console.ReadLine());
+
+            Gracz.nowa_postac(imie, Nazwisko, wiek);
+            Console.Clear();
+
             while (i != 20)
             {
                 Menu();
@@ -296,11 +436,23 @@ namespace Bar
 
                     case "3":
                         Console.Clear();
-                        Console.WriteLine(" Jendak się skapnęli");
-                        Console.WriteLine(" Wypadasz z Baru!");
-                        Thread.Sleep(1500);
-                        System.Environment.Exit(0);
+                        if (Gracz.Wiek < 18)
+                        {
+                            Console.WriteLine(" Jendak się skapnęli");
+                            Console.WriteLine(" Wypadasz z Baru!");
+                            Thread.Sleep(1500);
+                            System.Environment.Exit(0);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Nie żartuj sobie, Wchodzisz ;) ");
+                            Thread.Sleep(1500);
+                            Nasz_bar.LosujBarmana();
+                            WyborNapoju();
+                        }
                         break;
+
+
                     case "4":
                         Console.Clear();
                         Console.WriteLine("Dostałeś Pracę: " +
@@ -395,8 +547,8 @@ namespace Bar
 
                         }
                         Console.Clear();
-                        Console.WriteLine("\nUdało Ci się wykonać zadanie! Zyskujesz + 50 zł");
-                        //budżet +50;
+                        Console.WriteLine("\nUdało Ci się wykonać zadanie! Zyskujesz + 10 zł");
+                        Gracz.ZmianaPortfela(10);
                         Thread.Sleep(1500);
                         Console.Clear();
                         break;
@@ -442,7 +594,53 @@ namespace Bar
         }
 
     }
+    static class Gracz
+    {
+        static public string Imie;
+        static public string Nazwisko;
+        static public int Wiek;
+        private static double portfel = 25.0; 
+        static public double promile =
+            0.0;
 
+        static public void nowa_postac(string imie, string nazwisko, int wiek)
+        {
+            Imie = imie;
+            Nazwisko = nazwisko;
+            Wiek = wiek;
+        }
+        static public void ZmianaPortfela(double ile)
+        {
+            portfel += ile;
+
+        }
+        static public double WypPortfel()
+        {
+            return portfel;
+
+        }
+        static public void ZmianaPromili(double ile)
+        {
+            promile += ile;
+
+        }
+        static public void ZeroPromile()
+        {
+            promile = 0;
+
+        }
+        static public void zgon()
+        {
+            Console.WriteLine("No to poleciałeś.....");
+            Thread.Sleep(1000);
+            Console.WriteLine("Tyyyle wczoraj wypiłeś ,że zaliczyłeś zgona. " +
+                "\nBudzisz się caaaały obolały w swoim łóżku następnego dnia. " +
+                "\nNie wstyd Ci??!");
+            Console.WriteLine("\nAby przejść dalej, naciśnij kalwisz");
+            Console.ReadKey();
+        }
+
+    }
 
     public class Barman : Osoba
     {
@@ -461,6 +659,8 @@ namespace Bar
     {
         public abstract double ObliczKoszt();
         public abstract string Nazwa();
+        public abstract double ObliczPromile();
+
     }
     public class Wodka : NowyNapoj
     {
@@ -472,6 +672,11 @@ namespace Bar
         {
             return "Kieliszek Wódeczki dla szefa";
         }
+        public override double ObliczPromile()
+        {
+            return 0.5;
+        }
+
     }
     public class Shot : NowyNapoj
     {
@@ -482,6 +687,10 @@ namespace Bar
         public override string Nazwa()
         {
             return "Shocik dla szefa";
+        }
+        public override double ObliczPromile()
+        {
+            return 0.3;
         }
     }
     public class Napoj : NowyNapoj
@@ -494,6 +703,11 @@ namespace Bar
         {
             return "Napój";
         }
+        public override double ObliczPromile()
+        {
+            return 0.0;
+        }
+
     }
     public class NapojeDekorator : NowyNapoj
     {
@@ -510,6 +724,10 @@ namespace Bar
         {
             return _napoje.Nazwa();
         }
+        public override double ObliczPromile()
+        {
+            return _napoje.ObliczPromile();
+        }
     }
     //do wodeczki
     public class CytrynaDekorator : NapojeDekorator
@@ -524,6 +742,10 @@ namespace Bar
         public override string Nazwa()
         {
             return _napoje.Nazwa() + " ,z Cytryną";
+        }
+        public override double ObliczPromile()
+        {
+            return _napoje.ObliczPromile() - 0.05;
         }
     }
     //shoty
@@ -540,6 +762,10 @@ namespace Bar
         {
             return _napoje.Nazwa() + " ,Szybki Ogier";
         }
+        public override double ObliczPromile()
+        {
+            return _napoje.ObliczPromile() + 0.05;
+        }
     }
     public class DanceMachina : NapojeDekorator
     {
@@ -553,6 +779,10 @@ namespace Bar
         public override string Nazwa()
         {
             return _napoje.Nazwa() + " ,Dance Machina";
+        }
+        public override double ObliczPromile()
+        {
+            return _napoje.ObliczPromile() + 0.1;
         }
     }
     public class ToTwojKoniec : NapojeDekorator
@@ -568,6 +798,10 @@ namespace Bar
         {
             return _napoje.Nazwa() + " ,To twój koniec";
         }
+        public override double ObliczPromile()
+        {
+            return _napoje.ObliczPromile() + 0.3;
+        }
     }
     public class Pkt : NapojeDekorator
     {
@@ -581,6 +815,10 @@ namespace Bar
         public override string Nazwa()
         {
             return _napoje.Nazwa() + " ,Dobry wybór";
+        }
+        public override double ObliczPromile()
+        {
+            return _napoje.ObliczPromile() + 0.05;
         }
     }
     // napoje
